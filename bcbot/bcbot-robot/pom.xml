@@ -13,7 +13,9 @@
 	<url>http://maven.apache.org</url>
 	<properties>
 		<rhiot.version>0.1.3</rhiot.version>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<bcbot-robot.host>192.168.1.78</bcbot-robot.host>
+		<bcbot-robot.path>/home/bcbot/bcbot/robot</bcbot-robot.path>
+		<bcbot-robot.scriptFileName>bcbot-robot.sh</bcbot-robot.scriptFileName>
 		<mainClass.name>xyz.sergevas.iot.bcbot.robot.common.RobotMain</mainClass.name>
 	</properties>
 	<dependencies>
@@ -39,10 +41,62 @@
 		</dependency>
 	</dependencies>
 	<build>
-	  <plugins>
-	    <plugin>
-	      <artifactId>maven-shade-plugin</artifactId>
-	    </plugin>
-	  </plugins>
+		<plugins>
+			<plugin>
+				<groupId>com.googlecode.velocity-maven-plugin</groupId>
+				<artifactId>velocity-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>deploy</phase>
+						<goals>
+							<goal>velocity</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<outputDirectory>${project.build.directory}</outputDirectory>
+					<templateFiles>
+						<directory>/src/main/resources</directory>
+						<includes>
+							<include>*.vm</include>
+						</includes>
+					</templateFiles>
+					<templateValues>
+						<serviceName>bcbot_robot</serviceName>
+						<bcbotRobotDir>${bcbot-robot.path}</bcbotRobotDir>
+						<jarPath>${bcbot-robot.path}/${project.build.finalName}.jar</jarPath>
+					</templateValues>
+					<removeExtension>.vm</removeExtension>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-shade-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>wagon-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>deploy</phase>
+						<goals>
+							<goal>upload</goal>
+							<goal>sshexec</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<fromDir>${project.build.directory}</fromDir>
+					<includes>${project.build.finalName}.jar, ${bcbot-robot.scriptFileName}</includes>
+					<commands>
+					  <command>sudo /etc/init.d/${bcbot-robot.scriptFileName} stop</command>
+					  <command>sudo mv ${bcbot-robot.path}/${bcbot-robot.scriptFileName} /etc/init.d</command>
+					  <command>sudo chmod u+rwx /etc/init.d/${bcbot-robot.scriptFileName}</command>
+					  <command>sudo /etc/init.d/${bcbot-robot.scriptFileName} start</command>
+					</commands>
+					<url>scp://${bcbot-robot.host}${bcbot-robot.path}</url>
+					<serverId>bcbot-robot-server</serverId>
+				</configuration>
+			</plugin>
+		</plugins>
 	</build>
 </project>

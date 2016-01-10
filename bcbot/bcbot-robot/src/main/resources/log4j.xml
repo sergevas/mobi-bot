@@ -6,7 +6,7 @@
 	<appender name="BCBOT_FILE_APPENDER" class="org.apache.log4j.RollingFileAppender">
 		<param name="MaxFileSize" value="5MB" />
 		<param name="MaxBackupIndex" value="2" />
-		<param name="file" value="/var/log/bcbot/bcbot.log" />
+		<param name="file" value="/home/bcbot/bcbot/robot/bcbot_robot.log" />
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern" value="%d{HH:mm:ss.SSS} %-5p [%t][%c] %m%n" />
 		</layout>
