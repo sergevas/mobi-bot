@@ -88,9 +88,9 @@
 					<fromDir>${project.build.directory}</fromDir>
 					<includes>${project.build.finalName}.jar, ${bcbot-robot.scriptFileName}</includes>
 					<commands>
-					  <command>sudo /etc/init.d/${bcbot-robot.scriptFileName} stop</command>
 					  <command>sudo mv ${bcbot-robot.path}/${bcbot-robot.scriptFileName} /etc/init.d</command>
-					  <command>sudo chmod u+rwx /etc/init.d/${bcbot-robot.scriptFileName}</command>
+  				      <command>sudo chmod u+rwx /etc/init.d/${bcbot-robot.scriptFileName}</command>
+					  <command>sudo /etc/init.d/${bcbot-robot.scriptFileName} stop</command>
 					  <command>sudo /etc/init.d/${bcbot-robot.scriptFileName} start</command>
 					</commands>
 					<url>scp://${bcbot-robot.host}${bcbot-robot.path}</url>
