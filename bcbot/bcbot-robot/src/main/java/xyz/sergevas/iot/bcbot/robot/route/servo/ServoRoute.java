@@ -6,8 +6,6 @@ public class ServoRoute extends RouteBuilder {
 
 	@Override
 	public void configure() throws Exception {
-		// TODO Auto-generated method stub
-
+		from("direct:robot.move.forward").choice().
 	}
-
 }
