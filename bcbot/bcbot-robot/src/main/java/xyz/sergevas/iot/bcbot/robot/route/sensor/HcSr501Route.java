@@ -2,7 +2,7 @@ package xyz.sergevas.iot.bcbot.robot.route.sensor;
 
 import org.apache.camel.builder.RouteBuilder;
 
-public class HcSr505Route extends RouteBuilder {
+public class HcSr501Route extends RouteBuilder {
 
 	@Override
 	public void configure() throws Exception {
