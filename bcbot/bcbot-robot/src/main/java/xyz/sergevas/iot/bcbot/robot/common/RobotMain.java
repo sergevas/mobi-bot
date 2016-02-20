@@ -6,7 +6,7 @@ import org.apache.log4j.Logger;
 //import org.eclipse.californium.core.CoapServer;
 
 import xyz.sergevas.iot.bcbot.robot.route.sensor.CoAPMockRoute;
-import xyz.sergevas.iot.bcbot.robot.route.sensor.HcSr505Route;
+import xyz.sergevas.iot.bcbot.robot.route.sensor.HcSr501Route;
 
 public class RobotMain {
 
@@ -24,7 +24,7 @@ public class RobotMain {
 		main.bind("properties", propertiesComponent);
 		main.enableHangupSupport();
 		
-		main.addRouteBuilder(new HcSr505Route());
+		main.addRouteBuilder(new HcSr501Route());
 		main.addRouteBuilder(new CoAPMockRoute());
 		try {
 			main.run();

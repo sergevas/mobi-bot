@@ -10,8 +10,9 @@ public class ServoRoute extends RouteBuilder {
 	public void configure() throws Exception {
 		from("direct:robot.move.forward")
 		    .choice()
-		    .when(header(ROBOT_SPEED_MODE_HEADER).isEqualToIgnoreCase("{{servo.speed.mode.slow}}")).to("exec:")
-		    .when(header(ROBOT_SPEED_MODE_HEADER).isEqualToIgnoreCase("{{servo.speed.mode.medium}}")).to("exec:")
-		    .when(header(ROBOT_SPEED_MODE_HEADER).isEqualToIgnoreCase("{{servo.speed.mode.fast}}")).to("exec:");
+		        .when(header(ROBOT_SPEED_MODE_HEADER).isEqualToIgnoreCase("{{servo.speed.mode.slow}}")).to("exec:")
+		        .when(header(ROBOT_SPEED_MODE_HEADER).isEqualToIgnoreCase("{{servo.speed.mode.medium}}")).to("exec:")
+		        .when(header(ROBOT_SPEED_MODE_HEADER).isEqualToIgnoreCase("{{servo.speed.mode.fast}}")).to("exec:")
+		    .end().to("");
 	}
 }
