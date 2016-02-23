@@ -32,6 +32,10 @@
 			<artifactId>camel-coap</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-test</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
 		</dependency>
@@ -46,6 +50,10 @@
 	</dependencies>
 	<build>
 		<plugins>
+		    <plugin>
+              <groupId>io.fabric8.forge</groupId>
+              <artifactId>fabric8-camel-maven-plugin</artifactId>
+            </plugin>
 			<plugin>
 				<groupId>com.googlecode.velocity-maven-plugin</groupId>
 				<artifactId>velocity-maven-plugin</artifactId>
@@ -89,6 +97,7 @@
 					</execution>
 				</executions>
 				<configuration>
+				    <failOnError>false</failOnError>
 					<fromDir>${project.build.directory}</fromDir>
 					<includes>${project.build.finalName}.jar, ${bcbot-robot.scriptFileName}</includes>
 					<commands>
