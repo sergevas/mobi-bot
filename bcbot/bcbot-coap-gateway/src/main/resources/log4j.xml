@@ -6,15 +6,14 @@
 	<appender name="BCBOT_FILE_APPENDER" class="org.apache.log4j.RollingFileAppender">
 		<param name="MaxFileSize" value="5MB" />
 		<param name="MaxBackupIndex" value="2" />
-		<!-- <param name="file" value="/home/bcbot/coapgateway/bcbot_coapgateway.log" /> -->
-		<param name="file" value="d:/bcbot/coapgateway/bcbot_coapgateway.log" />
+		<param name="file" value="d:/bcbot/coapgateway/bcbot_coap_gateway.log" />
 		<layout class="org.apache.log4j.PatternLayout">
-			<param name="ConversionPattern" value="%d{HH:mm:ss.SSS} %-5p [%t][%c] %m%n" />
+			<param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5p [%t][%c] %m%n" />
 		</layout>
 	</appender>
 	
 <!-- Loggers -->
-	<logger name="xyz.sergevas.iot.bcbot" additivity="false">
+	<logger name="xyz.sergevas.iot.bcbot.coap.gateway" additivity="false">
 		<level value="debug" />
 		<appender-ref ref="BCBOT_FILE_APPENDER" />
 	</logger>
