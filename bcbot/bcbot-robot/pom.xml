@@ -1,114 +1,88 @@
 <?xml version="1.0"?>
 <project
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
-	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>xyz.sergevas.iot</groupId>
-		<artifactId>bcbot</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
-	</parent>
-	<artifactId>bcbot-robot</artifactId>
-	<name>bcbot-robot</name>
+	<groupId>xyz.sergevas.iot</groupId>
+	<artifactId>bcbot</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>DIY mobile robot software</name>
 	<url>http://iot-sergevas.blogspot.com</url>
+	<inceptionYear>2019</inceptionYear>
+	<developers>
+		<developer>
+			<id></id>
+			<name>Sergey Vasiliev</name>
+			<email>sergey@sergevas.xyz</email>
+		</developer>
+	</developers>
+	<packaging>jar</packaging>
+
 	<properties>
-		<rhiot.version>0.1.3</rhiot.version>
-		<bcbot-robot.host>192.168.1.78</bcbot-robot.host>
-		<bcbot-robot.path>/home/bcbot/bcbot/robot</bcbot-robot.path>
-		<bcbot-robot.scriptFileName>bcbot-robot.sh</bcbot-robot.scriptFileName>
-		<mainClass.name>xyz.sergevas.iot.bcbot.robot.common.RobotMain</mainClass.name>
+		<camel.version>2.16.1</camel.version>
+		<junit.version>4.12</junit.version>
+		<log4j.version>1.2.17</log4j.version>
+		<slf4j.version>1.7.12</slf4j.version>
+		<maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
+		<jdk.version>1.11</jdk.version>
+		<maven-shade-plugin.version>3.2.1</maven-shade-plugin.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<mainClass.name><!-- TODO --></mainClass.name>
 	</properties>
 	<dependencies>
 		<dependency>
-			<groupId>io.rhiot</groupId>
-			<artifactId>camel-pi4j</artifactId>
-		</dependency>
-		<dependency>
-          <groupId>org.apache.camel</groupId>
-          <artifactId>camel-exec</artifactId>
-        </dependency>
-		<dependency>
-			<groupId>org.apache.camel</groupId>
-			<artifactId>camel-coap</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.camel</groupId>
-			<artifactId>camel-test</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
+			<version>${log4j.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
+			<version>${slf4j.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
+			<version>${slf4j.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit.version}</version>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
-		    <plugin>
-              <groupId>io.fabric8.forge</groupId>
-              <artifactId>fabric8-camel-maven-plugin</artifactId>
-            </plugin>
 			<plugin>
-				<groupId>com.googlecode.velocity-maven-plugin</groupId>
-				<artifactId>velocity-maven-plugin</artifactId>
-				<executions>
-					<execution>
-						<phase>deploy</phase>
-						<goals>
-							<goal>velocity</goal>
-						</goals>
-					</execution>
-				</executions>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${maven-compiler-plugin.version}</version>
 				<configuration>
-					<outputDirectory>${project.build.directory}</outputDirectory>
-					<templateFiles>
-						<directory>/src/main/resources</directory>
-						<includes>
-							<include>*.vm</include>
-						</includes>
-					</templateFiles>
-					<templateValues>
-						<serviceName>bcbot_robot</serviceName>
-						<bcbotRobotDir>${bcbot-robot.path}</bcbotRobotDir>
-						<jarPath>${bcbot-robot.path}/${project.build.finalName}.jar</jarPath>
-					</templateValues>
-					<removeExtension>.vm</removeExtension>
+					<source>${jdk.version}</source>
+					<target>${jdk.version}</target>
 				</configuration>
 			</plugin>
 			<plugin>
 				<artifactId>maven-shade-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>wagon-maven-plugin</artifactId>
+				<version>${maven-shade-plugin.version}</version>
 				<executions>
 					<execution>
-						<phase>deploy</phase>
+						<phase>package</phase>
 						<goals>
-							<goal>upload</goal>
-							<goal>sshexec</goal>
+							<goal>shade</goal>
 						</goals>
+						<configuration>
+							<transformers>
+								<transformer
+									implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+									<mainClass>${mainClass.name}</mainClass>
+								</transformer>
+							</transformers>
+						</configuration>
 					</execution>
 				</executions>
-				<configuration>
-				    <failOnError>false</failOnError>
-					<fromDir>${project.build.directory}</fromDir>
-					<includes>${project.build.finalName}.jar, ${bcbot-robot.scriptFileName}</includes>
-					<commands>
-					  <command>sudo mv ${bcbot-robot.path}/${bcbot-robot.scriptFileName} /etc/init.d</command>
-  				      <command>sudo chmod u+rwx /etc/init.d/${bcbot-robot.scriptFileName}</command>
-					  <command>sudo /etc/init.d/${bcbot-robot.scriptFileName} stop</command>
-					  <command>sudo /etc/init.d/${bcbot-robot.scriptFileName} start</command>
-					</commands>
-					<url>scp://${bcbot-robot.host}${bcbot-robot.path}</url>
-					<serverId>bcbot-robot-server</serverId>
-				</configuration>
 			</plugin>
 		</plugins>
 	</build>
