@@ -1,6 +1,6 @@
 package xyz.sergevas.iot.mobibot.robot.entity;
 
-public class RobotVehicle implements Movable, Turnable, Switchable {
+public class RobotVehicle implements Movable, Turnable, Switchable, Beepable {
 
 	@Override
 	public void switchGear(int gear) {
@@ -24,6 +24,10 @@ public class RobotVehicle implements Movable, Turnable, Switchable {
 
 	@Override
 	public void stop() {
+	}
+
+	@Override
+	public void beep() {
 	}
 
 }

@@ -1,6 +1,6 @@
 package xyz.sergevas.iot.mobibot.robot.entity;
 
-public interface SensorEvent<T> {
+public interface Beepable {
 	
-	T getData();
+	void beep();
 }

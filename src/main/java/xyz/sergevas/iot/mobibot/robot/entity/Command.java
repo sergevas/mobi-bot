@@ -1,5 +1,8 @@
 package xyz.sergevas.iot.mobibot.robot.entity;
 
-public interface Command {
+import java.util.Map;
 
+public interface Command {
+	
+	Map<String, ?> getInstructions();
 }
