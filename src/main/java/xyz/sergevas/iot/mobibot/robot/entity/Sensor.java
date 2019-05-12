@@ -2,7 +2,7 @@ package xyz.sergevas.iot.mobibot.robot.entity;
 
 import java.util.function.Consumer;
 
-public interface Sensor<T, S, U extends SensorEvent<T>> {
+public interface Sensor<S, T extends SensorEvent<T>> {
 	
 	void handle();
 	

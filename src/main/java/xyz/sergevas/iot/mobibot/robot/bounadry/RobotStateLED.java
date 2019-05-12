@@ -6,7 +6,7 @@ import xyz.sergevas.iot.mobibot.robot.entity.Command;
 public class RobotStateLED implements Attenuator {
 
 	@Override
-	public <E extends Command> void execute(E e) {
+	public <T extends Command> void execute(T t) {
 	}
 }
 
