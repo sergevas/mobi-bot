@@ -27,9 +27,9 @@
 // this an example of java policy file with security permissions required for DIO library.
 
 // policy for DIO framework
-grant codeBase "file:./dio.jar" {
+grant {
         permission "java.util.PropertyPermission" "jdk.dio.registry", "read";
-        permission "java.io.FilePermission" "./dio.properties-raspberrypi", "read,write";
+//      permission "java.io.FilePermission" "./dio.properties", "read,write";
         permission "java.lang.RuntimePermission" "loadLibrary.dio";
 // used by classloader when libdio.so is loaded
         permission "java.util.PropertyPermission" "user.dir", "read";
